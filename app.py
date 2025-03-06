@@ -30,6 +30,27 @@ proxy_list = [
     'socks4://1.82.216.134:11228',  # China - Elite SOCKS4
 ]
 
+# Function to clear the screen (works for Termux and other environments)
+def clear_screen():
+    os.system('clear')  # For Linux/Unix (including Termux)
+    # os.system('cls')  # Uncomment this for Windows environments
+
+# Function to display the banner
+def display_banner(title):
+    banner = "(PyeulShares)" * 10  # Repeat 10 times
+    console.print(Panel(banner, title=f"[yellow]● {title}[/]", width=65, style="bold bright_white"))
+
+# Function to generate a random string (for the 'machine_id')
+def random_string(length):
+    characters = string.ascii_lowercase + "0123456789"
+    return ''.join(random.choice(characters) for _ in range(length))
+
+# Function to encode the signature
+def encode_sig(data):
+    sorted_data = {k: data[k] for k in sorted(data)}
+    data_str = ''.join(f"{key}={value}" for key, value in sorted_data.items())
+    return hashlib.md5((data_str + '62f8ce9f74b12f84c123cc23437a4a32').encode()).hexdigest()
+
 # Function to set proxy
 def get_random_proxy():
     return random.choice(proxy_list)
